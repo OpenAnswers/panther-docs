@@ -23,7 +23,7 @@ configuration is also required to enable communication with Panther.
 This and subsequent pages provide a guide to the configuration required once any necessary
 logging software has been installed. 
 
-> _Note: The instructions here are based on clean installations of the logging software -- if site-specific configurations have already been made, then it is necessary to download the Panther resources and integrate them following the providers' documentation._
+> _**NOTE**: The instructions here are based on clean installations of the logging software -- if site-specific configurations have already been made, then it is necessary to download the Panther resources and integrate them following the providers' documentation._
 
 All users should read the general advice in the [introduction](#introduction), but then
 refer to the relevant sections for their own specific software.
@@ -49,11 +49,11 @@ These are both _TCP_ ports and may require additional firewalling rules to permi
 
 Event data is sent securely to the Panther server from local clients via an encrypted connection using Transport Layer Security (TLS). This requires the use of certificates and unique client keys which are generated specifically for your Panther instance during the sign-up process. 
 
-> _Note: TLS certificates are used for app.panther.support, self hosted Docker containers use standard Syslog_
+> _**NOTE**: TLS certificates are used for app.panther.support, self hosted Docker containers use standard Syslog_
 
 Since these certificates and keys are needed to configure client event loggers, they are bundled into "configuration archives" along with sample configuration files specific to the software, and made available for download from your Panther instance e.g. ([example.app.panther.support](https://app.panther.support){:target="_blank"}).
 
-> _Note: You should ensure that the `key.pem` included in your configuration archive is kept secure to prevent its use by anyone else._
+> _**NOTE**: You should ensure that the `key.pem` included in your configuration archive is kept secure to prevent its use by anyone else._
 
 The configuration process therefore is to download an appropriate archive, to load it in a suitable location for the software, and to carry out any remaining package or system specific tasks.
 

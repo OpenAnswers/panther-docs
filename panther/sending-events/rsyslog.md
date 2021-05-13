@@ -46,7 +46,7 @@ The archives are downloaded in an appropriate format for each system:
 - Linux archives are provided in uncompressed `tar` format, while
 - Windows archives are built using `zip`.
 
-> _Note: that the same certificates and keys are provided in each archive, so for custom configurations the choice of download is unimportant._
+> _**NOTE**: that the same certificates and keys are provided in each archive, so for custom configurations the choice of download is unimportant._
 
 
 
