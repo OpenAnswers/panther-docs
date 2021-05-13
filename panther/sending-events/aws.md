@@ -75,9 +75,9 @@ The [panther-aws-events](https://github.com/OpenAnswers/panther-aws-events){:tar
 
 Therefore, to easily build and deploy the Lambda function code to AWS, you must first install SAM.
 
->_**NOTE:** The AWS SAM tool requires that you have setup the AWS CLI tools first, and that you can use them to access your account:  [docs.aws.amazon.com/cli/index.html](https://docs.aws.amazon.com/cli/index.html){:target="_blank"}_
+>_**NOTE:** The AWS SAM tool requires that you have first setup the AWS CLI tools, and that you can use them to access your account.  Amazon/AWS setup instructions will guide you through this process [docs.aws.amazon.com/cli/index.html](https://docs.aws.amazon.com/cli/index.html){:target="_blank"}_
 
-## Installing SAM on Linux (simple)
+## Installing SAM on Linux
 
 To install SAM on Linux, you can use the [Python 3 installer](https://docs.python.org/3/installing/index.html){:target="_blank"} version:
 
