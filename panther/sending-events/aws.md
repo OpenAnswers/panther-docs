@@ -56,7 +56,7 @@ Rectangle Panther #black [
   PantherLogo as A1
 ]
 
-LambdaPantherEvent -down-> Internet : POST to Panther API (app.panther.support)
+LambdaPantherEvent -down-> Internet : POST to Panther API (https://example.app.panther.support/api/event/create)
 Internet -down-> Panther
 
 @enduml
@@ -93,7 +93,7 @@ The official [Amazon SAM](https://docs.aws.amazon.com/serverless-application-mod
 In order to send events from your AWS estate to [Panther](https://app.panther.support){:target="_blank"} you will need to have the following values:
 
 |`APIToken`| Panther [HTTP API Key](/../admin/index.md#api-keys) this will be a long 32 character string of random letters and numbers |
-|`ConsoleFQDN`| The fully qualified name of your Panther Console e.g. [example.app.panther.support](https://app.panther.support){:target="_blank"} or self-hosted hostname |
+|`APIUrl`| Panther [Event API URL](/../api/index.md) e.g. [https://example.app.panther.support/api/event/create](https://app.panther.support){:target="_blank"} or self-hosted API endpoint |
 
 You will be prompted for these values when deploying to AWS via SAM.
 
@@ -142,7 +142,7 @@ sam deploy --guided
 
 You will then be asked a series of questions to deploy the code to your account and will be prompted for the following values:
   - `APIToken`
-  - `ConsoleFQDN`
+  - `APIUrl`
 
 The process will look similar to this:
 
@@ -160,7 +160,7 @@ Configuring SAM deploy
         Stack Name [AWS-Events2Panther]:
         AWS Region [us-east-1]: eu-west-3
         Parameter APIToken []: XXXXXXXxxxxxxxxXXXXXXXxxxxxxXXXX
-        Parameter ConsoleFQDN []: example.app.panther.support
+        Parameter APIUrl []: https://example.app.panther.support/api/event/create
         #Shows you resources changes to be deployed and require a 'Y' to initiate deploy
         Confirm changes before deploy [Y/n]: y
         #SAM needs permission to be able to create roles to connect to the resources in your template
@@ -187,7 +187,7 @@ Configuring SAM deploy
         Confirm changeset          : True
         Deployment s3 bucket       : aws-sam-cli-managed-default-samclisourcebucket-1f8nf3gegbbkw
         Capabilities               : ["CAPABILITY_IAM"]
-        Parameter overrides        : {'APIToken': 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', 'ConsoleFQDN': 'example.app.panther.support'}
+        Parameter overrides        : {'APIToken': 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', 'APIUrl': 'https://example.app.panther.support/api/event/create'}
 
 Initiating deployment
 =====================
@@ -459,7 +459,7 @@ The `severity` is on a scale from 0-5, with
 
 SAM can use a local docker image to test Lambda functions on your machine.
 
-To run the Lambda function with the test data first update the `env.json` file with your values for `ConsoleFQDN` and `APIToken` as described in the [checklist](#checklist).
+To run the Lambda function with the test data first update the `env.json` file with your values for `APIUrl` and `APIToken` as described in the [checklist](#checklist).
 
 >_**NOTE:** To create a Panther `APIToken` please consult the [admin documentation](../admin/index.md#api-keys)_
 
@@ -468,7 +468,7 @@ To run the Lambda function with the test data first update the `env.json` file w
 ❯ cat env.json
 {
   "Parameters": {
-    "CONSOLE_FQDN": "<PANTHER_NAME>.app.panther.support",
+    "API_URL": "https://<PANTHER_NAME>.app.panther.support/api/event/create",
     "API_TOKEN": "<PANTHER_API_TOKEN>"
   }
 }
