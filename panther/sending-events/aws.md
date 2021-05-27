@@ -27,39 +27,7 @@ Events can be sent to either an [app.panther.support](https://app.panther.suppor
 This system has been designed to gather AWS events, extract data from them and send it to your Panther Console via the Panther API.
 
 The general flow of events from AWS to Panther is summarised by the following:
-
-@startuml
-skinparam backgroundColor #eeeeee
-
-!include <awslib/AWSCommon>
-!include <awslib/GroupIcons/all.puml>
-!include <awslib/Compute/all.puml>
-!include <awslib/ManagementAndGovernance/all.puml>
-!include <awslib/SecurityIdentityAndCompliance/all.puml>
-!define PantherLogo <img src="https://openanswers.github.io/panther-docs/img/panther_logo_thin.png">
-
-Cloudalt(Cloudalt, "", "AWS") #orange {
-
-  Rectangle "Sources" #white {
-    GuardDuty(GuardDuty1, "","All events from GuardDuty")
-    CloudWatch(CloudWatch1, "","All visible events in region")
-  }
-  LambdaLambdaFunction(LambdaPantherEvent, "AWS-Events2Panther", "Send events to Panther API")
-
-  Sources -down-> LambdaPantherEvent 
-  
-}
-
-cloud Internet
-
-Rectangle Panther #black [
-  PantherLogo as A1
-]
-
-LambdaPantherEvent -down-> Internet : POST to Panther API (https://example.app.panther.support/api/event/create)
-Internet -down-> Panther
-
-@enduml
+![AWSEvents2Panther](./media/aws-to-panther.png)
 
 
 1. The Lambda function is triggered whenever a filter matches an event.
