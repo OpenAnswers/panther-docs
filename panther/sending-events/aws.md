@@ -457,7 +457,7 @@ The `severity` is on a scale from 0-5, with
 
 ## Testing changes locally
 
-SAM can use a local docker image to test Lambda functions on your machine.
+SAM can use a local Docker image to test Lambda functions on your machine.
 
 To run the Lambda function with the test data first update the `env.json` file with your values for `APIUrl` and `APIToken` as described in the [checklist](#checklist).
 

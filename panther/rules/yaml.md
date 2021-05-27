@@ -16,11 +16,11 @@ Depending on which way you installed Panther there are differing locations of th
 
 
 ## When using [docker-compose.yml](https://github.com/OpenAnswers/panther-core/blob/master/docker-compose.yml){:target="_blank"}
-  A docker volume will have been created, the name is comprised of two parts.
+  A Docker volume will have been created, the name is comprised of two parts.
   
   `<directory-name>_rules_vol`
 
-  For example if your `docker-compose.yml` is in a directory called `panther` then the docker volume will be called
+  For example if your `docker-compose.yml` is in a directory called `panther` then the Docker volume will be called
   `panther_rules-vol`
 
   e.g.
