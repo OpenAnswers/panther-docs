@@ -6,7 +6,7 @@ permalink: /panther/sending-events/aws
 layout: template
 description: AWS events to Panther
 parent: Sending Events to Panther
-image: /img/panther_logo_thin_with_aws.png
+image: /img/aws-to-panther.png
 ---
 
 # AWS-Events2Panther
