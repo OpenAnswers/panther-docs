@@ -1,11 +1,11 @@
 ---
 layout: home
-title: Rules file (yaml)
+title: Rules file (YAML)
 nav_order: 6
 permalink: /panther/rules/yaml
 parent: Rules
 layout: template
-description: Panther Rules - yaml definitions
+description: Panther Rules - YAML definitions
 ---
 
 # Rules location

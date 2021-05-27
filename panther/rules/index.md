@@ -53,7 +53,7 @@ followed by the [Global Rules](./global.md#global-rules) and, finally, any optio
 
 # Details
 
-  Each rule definition is stored in yaml file.
+  Each rule definition is stored in a YAML file.
 
   A basic rule has a `name` followed by a *Select* verb, such as `match`, and an *Action* verb, such as `discard`:
 

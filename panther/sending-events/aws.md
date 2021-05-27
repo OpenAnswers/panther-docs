@@ -260,7 +260,7 @@ Manual testing can be done by following the [**Sending some test events**](#send
 
 There are two approaches to configuring which events will trigger the Lambda function.
 
-* [Adding new yaml config to the SAM template](#generating-new-event-triggers-using-sam) (`template.yaml`) that will generate the triggers for you.
+* [Adding new YAML config to the SAM template](#generating-new-event-triggers-using-sam) (`template.yaml`) that will generate the triggers for you.
 
 * [Setting up new triggers in the AWS Console](#setting-up-event-triggers-in-the-aws-console).
  
