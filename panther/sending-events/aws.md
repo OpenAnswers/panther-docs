@@ -27,7 +27,10 @@ Events can be sent to either an [app.panther.support](https://app.panther.suppor
 This system has been designed to gather AWS events, extract data from them and send it to your Panther Console via the Panther API.
 
 The general flow of events from AWS to Panther is summarised by the following:
+
+{:refdef: style="text-align: center;"}
 ![AWSEvents2Panther](./media/aws-to-panther.png)
+{: refdef}
 
 
 1. The Lambda function is triggered whenever a filter matches an event.
