@@ -509,7 +509,7 @@ It should look something like this:
 
 ### Sending a sample event
 
-* Click the ![Invoke button](./media/invoke.png) button to send the event.
+* Click the ![Test button](./media/test.png) button to send the event.
 
 * Verify in your Panther Console that the event was received (it may take a couple of seconds)
 
