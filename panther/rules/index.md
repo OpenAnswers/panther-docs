@@ -123,7 +123,7 @@ Rules are applied in the following order:
 ## Shortcut helpers
 
   There are some tasks that are repeated frequently, so the most
-  reqular have shortcuts set up to make the rules more succinct.
+  regular have shortcuts set up to make the rules more succinct.
 
   TODO - not clear how or where to use these!
 

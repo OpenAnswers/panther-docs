@@ -86,8 +86,14 @@ See [the API documentation](../api/index.md) for more information.
 
 # Delete All Events
 
-TODO
+The `Delete All Events` section can be used to permanently remove every event from the database, returning the console to an empty state. To do this, click the `Delete all` button to display a confirmation prompt, then click `Are you sure?` to complete the operation.
+
+This action cannot be undone.
 
 # Console Fields
 
-TODO
+The `Console Fields` section allows additional fields to be defined on top of the standard event fields. Once added, these fields appear as columns in the event console and can be populated by [rules](../rules/index.md), allowing data specific to a particular deployment to be captured and displayed alongside the standard event information.
+
+New fields can be added using the form at the bottom of the section. Existing fields can be edited or removed by clicking on them in the list.
+
+This section is only visible when Panther is running in development mode.

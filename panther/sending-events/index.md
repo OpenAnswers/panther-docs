@@ -5,7 +5,7 @@ nav_order: 3
 permalink: /panther/sending-events
 has_children: true
 layout: template
-description: Panther makes it easy to ingest events by providing downloadable pre-configured configuration files for popular logging software such as Ryslog and NXLog
+description: Panther makes it easy to ingest events by providing downloadable pre-configured configuration files for popular logging software such as Rsyslog and NXLog
 image: /img/panther-event-sources.jpeg
 twitter:
   card: summary_large_image
@@ -76,9 +76,9 @@ Syslog events are sent to `app.panther.support:6514` (6514 is the secure syslog 
 
 ## [app.panther.support](https://app.panther.support) (HTTPS API)
 
-Event data is sent securely to the Panther server from local clients via an encrypted HTTPS connection.  This does not require any additional certficates to be installed and will use your systems standard TLS authority chain of trust.
+Event data is sent securely to the Panther server from local clients via an encrypted HTTPS connection.  This does not require any additional certificates to be installed and will use your systems standard TLS authority chain of trust.
 
-For futher information please consult the general [API Console](../api/index.md) documentation, or the [AWS-Events2Panther](./aws.md). 
+For further information please consult the general [API Console](../api/index.md) documentation, or the [AWS-Events2Panther](./aws.md). 
 
 
 ## Self Hosted Panther

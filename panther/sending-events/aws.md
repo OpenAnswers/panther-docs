@@ -56,7 +56,7 @@ To install SAM on Linux, you can use the [Python 3 installer](https://docs.pytho
 pip3 install aws-sam-cli
 ```
 
-The official [Amazon SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html){:target="_blank} install guide covers Windows, macOS and Linux and is slightly more involved.
+The official [Amazon SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html){:target="_blank"} install guide covers Windows, macOS and Linux and is slightly more involved.
 
 
 ## Checklist
@@ -89,7 +89,7 @@ If you have `node` v12 installed, you can use this build step:
 sam build
 ```
 
-> _**NOTE:** Many linux distributions include an old version of `node`. Node.js v12 can be installed for Linux using [NVM](https://github.com/nvm-sh/nvm){:target="blank"}._
+> _**NOTE:** Many linux distributions include an old version of `node`. Node.js v12 can be installed for Linux using [NVM](https://github.com/nvm-sh/nvm){:target="_blank"}._
 
 
 ### Building the AWS Lambda function (using Docker)
