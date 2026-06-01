@@ -46,11 +46,11 @@ Users can also acknowledge and unacknowledge events from the [event details](#ev
 
 ### Add External ID
 
-TODO
+An external ID can be set on the selected events, allowing them to be cross-referenced with records in other systems such as a ticketing or incident management tool. Selecting this option opens a dialogue where the external ID value can be entered.
 
 ### Add Note
 
-TODO
+Opens the [Notes](#notes) tab of the event details dialogue, where a note can be typed and saved against the selected event. Notes are visible to all users and provide a useful way of recording context or progress.
 
 ### Clear
 
@@ -66,7 +66,7 @@ The severity levels of events can be changed to different values by selecting ne
 
 ### Details
 
-TODO
+Opens the event details dialogue on the [Details](#details-1) tab. This is equivalent to double-clicking the event.
 
 ### Copy Event
 
@@ -74,7 +74,7 @@ The summary details of the selected events can be copied into your local system'
 
 ### Tools
 
-TODO
+The `Tools` submenu contains options for less frequently used actions. `Delete` will permanently remove the selected events from Panther immediately, unlike [Clear](#clear) which leaves a brief visual indicator for other users. `Create Rule` opens the rules editor with the selected event's fields pre-populated, making it straightforward to define a new matching rule based on a real event.
 
 ## Event Details
 

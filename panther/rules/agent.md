@@ -93,7 +93,7 @@ Currently supported fields are as follows:
 
 ## Additional fields for RFC5424
 
-*Note* `structuredData.timeQuality.*` fields are optional, but commonly used. Please refer to you Syslog generators documentation.
+*Note* `structuredData.timeQuality.*` fields are optional, but commonly used. Please refer to your Syslog generators documentation.
 
 | Field                                     | Example         |
 | ----------------------------------------- | --------------- |

@@ -74,7 +74,7 @@ shown in the `Curl` box.
 # Example
 
 This example of sending an event log using the GUI on the API page
-will also show how the [example group rule](../rules#group-rulse)
+will also show how the [example group rule](../rules#group-rules)
 works to put a log containing `FAILED su` in its summary into the
 `Operating System` group.
 
@@ -105,7 +105,7 @@ all the other event logs.
 
     ![](./media/apistep5.png)
 
-If the the custom group rule has been applied, the group will be set
+If the custom group rule has been applied, the group will be set
 to `Operating System` and the severity will be set to `3` - which is
 also shown by the entry being displayed in yellow.
 

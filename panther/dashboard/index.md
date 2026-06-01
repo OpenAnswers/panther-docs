@@ -38,4 +38,4 @@ The activity stream logs user interaction with Panther, including:
 
 # Inventory
 
-The inventory lists the names of hostnames that Panther has receieved events from and the last times they were seen.
+The inventory lists the names of hostnames that Panther has received events from and the last times they were seen.

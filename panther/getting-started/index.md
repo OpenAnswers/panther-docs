@@ -51,7 +51,7 @@ Clicking on `Open Console` will take you to the [Console](../console/index.md#ov
 ... this example shows that the Panther instance currently has two events in it. These particular messages are coming from the instance's _internal_ `syslogd` and `http` agents which will send periodic "keep-alive" events to indicate that they are healthy. Here, `Agent http is alive` and `Agent syslogd` are the details of the event, contained within the `summary` field (see next section). Double-click on an event to explore it a bit more.
 
 ## Anatomy of an Event
-A Panther Event is comprised of a number of data fields that are analagous to [The Syslog Protocol](https://tools.ietf.org/html/rfc5424){:target="_blank"}.
+A Panther Event is comprised of a number of data fields that are analogous to [The Syslog Protocol](https://tools.ietf.org/html/rfc5424){:target="_blank"}.
 
 | Field            | Meaning                                                         | Example value                                                                     |
 | ---------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------- |
@@ -108,10 +108,6 @@ of event log entries, Panther provides an HTTP based REST API,
 incorporating a key for security.
 
 More details on this are available in [the API section](../api/index.md).
-
-## Graylog (future)
-
-## SNMP Trap (future)
 
 # Event Source Examples
 
