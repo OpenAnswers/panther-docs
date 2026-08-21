@@ -25,8 +25,6 @@ the "Admin" group may additionally:
  + download the syslog [configuration](../sending-events/index.md) and TLS certificates
  + create [API Keys](#api-keys)
 
-The user created during the [app.panther.support](https://app.panther.support){:target="_blank"} signup process will automatically be an "Admin" user, who may then go on to carry out any further configuration and create any more user accounts that may be required.
-
 
 ## Creating User Accounts
 

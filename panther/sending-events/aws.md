@@ -11,16 +11,15 @@ image: /img/aws-to-panther.png
 
 # AWS-Events2Panther
 
-This guide will quickly and easily allow a user to deploy an [AWS Lambda](https://aws.amazon.com/lambda/){:target="_blank"} function called AWS-Events2Panther to collect AWS events and send them to Panther using the [Panther REST API](../api/index.md), which is a general purpose API that can also be used from the command-line.
+This guide will quickly and easily allow a user to deploy an [AWS Lambda](https://aws.amazon.com/lambda/){:target="\_blank"} function called AWS-Events2Panther to collect AWS events and send them to Panther using the [Panther REST API](../api/index.md), which is a general purpose API that can also be used from the command-line.
 
 AWS events are either region specific or global, depending on the service. Therefore, to get all events to your Panther Console you will have to deploy the AWS-Events2Panther Lambda function to each of your accounts and regions that you wish to monitor.
 
-The AWS-Events2Panther Lambda function [Node.js JavaScript code](https://github.com/OpenAnswers/panther-aws-events/blob/master/e2p/e2p.js){:target="_blank"} can be easily modified to support different AWS events, and/or send different data as part of the message, if required ( [Pull Requests](https://github.com/OpenAnswers/panther-aws-events/pulls){:target="_blank"} welcome ).
+The AWS-Events2Panther Lambda function [Node.js JavaScript code](https://github.com/OpenAnswers/panther-aws-events/blob/master/e2p/e2p.js){:target="\_blank"} can be easily modified to support different AWS events, and/or send different data as part of the message, if required ( [Pull Requests](https://github.com/OpenAnswers/panther-aws-events/pulls){:target="\_blank"} welcome ).
 
-Events can be sent to either an [app.panther.support](https://app.panther.support){:target="_blank"} SaaS instance or your own self-hosted [Dockerised container](https://hub.docker.com/repository/docker/openanswers/panther-console){:target="_blank"} deployment.
+Events can be sent to your own self-hosted [Dockerised container](https://hub.docker.com/u/openanswers){:target="\_blank"} deployment.
 
 > _**NOTE:** If you are self-hosting Panther through a local `docker` installation, you will need to ensure there is network connectivity from AWS to Panther. It is assumed there will be a TLS reverse proxy sat in front of Panther, if this not the case the Lambda function will need to be modified_
-
 
 ## System Design
 
@@ -32,53 +31,49 @@ The general flow of events from AWS to Panther is summarised by the following:
 ![AWSEvents2Panther](./media/aws-to-panther.png)
 {: refdef}
 
-
 1. The Lambda function is triggered whenever a filter matches an event.
 2. The Lambda function formats the event data into a [Panther JSON](#panther-json-message) message.
 3. The Lambda function sends the message to your Panther Console via the Panther API (over HTTPS) using your private [API key](../api/index.md#api-key).
 
-
 # Step-by-step
 
-The [panther-aws-events](https://github.com/OpenAnswers/panther-aws-events){:target="_blank"} project is built and deployed to AWS using the Serverless Application Model (SAM):
+The [panther-aws-events](https://github.com/OpenAnswers/panther-aws-events){:target="\_blank"} project is built and deployed to AWS using the Serverless Application Model (SAM):
 
-[docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html){:target="_blank"}
+[docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html){:target="\_blank"}
 
 Therefore, to easily build and deploy the Lambda function code to AWS, you must first install SAM.
 
->_**NOTE:** The AWS SAM tool requires that you have first setup the AWS CLI tools, and that you can use them to access your account.  Amazon/AWS setup instructions will guide you through this process [docs.aws.amazon.com/cli/index.html](https://docs.aws.amazon.com/cli/index.html){:target="_blank"}_
+> _**NOTE:** The AWS SAM tool requires that you have first setup the AWS CLI tools, and that you can use them to access your account. Amazon/AWS setup instructions will guide you through this process [docs.aws.amazon.com/cli/index.html](https://docs.aws.amazon.com/cli/index.html){:target="\_blank"}_
 
 ## Installing SAM on Linux
 
-To install SAM on Linux, you can use the [Python 3 installer](https://docs.python.org/3/installing/index.html){:target="_blank"} version:
+To install SAM on Linux, you can use the [Python 3 installer](https://docs.python.org/3/installing/index.html){:target="\_blank"} version:
 
 ```
 pip3 install aws-sam-cli
 ```
 
-The official [Amazon SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html){:target="_blank"} install guide covers Windows, macOS and Linux and is slightly more involved.
-
+The official [Amazon SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html){:target="\_blank"} install guide covers Windows, macOS and Linux and is slightly more involved.
 
 ## Checklist
 
-In order to send events from your AWS estate to [Panther](https://app.panther.support){:target="_blank"} you will need to have the following values:
+In order to send events from your AWS estate to Panther you will need to have the following values:
 
 |`APIToken`| Panther [HTTP API Key](/../admin/index.md#api-keys) this will be a long 32 character string of random letters and numbers |
-|`APIUrl`| Panther [Event API URL](/../api/index.md) e.g. [https://example.app.panther.support/api/event/create](https://app.panther.support){:target="_blank"} or self-hosted API endpoint |
+|`APIUrl`| Panther [Event API URL](/../api/index.md) e.g. `https://example.com/api/event/create` or self-hosted API endpoint |
 
 You will be prompted for these values when deploying to AWS via SAM.
 
-
 ## Installing AWS-Events2Panther
 
-Download the [panther-aws-events](https://github.com/OpenAnswers/panther-aws-events){:target="_blank"} source code from GitHub with:
+Download the [panther-aws-events](https://github.com/OpenAnswers/panther-aws-events){:target="\_blank"} source code from GitHub with:
 
 ```
 git clone https://github.com/OpenAnswers/panther-aws-events.git
 cd panther-aws-events
 ```
 
-Once the source code has been downloaded, the [panther-aws-events](https://github.com/OpenAnswers/panther-aws-events){:target="_blank"} project needs to be built using the `sam build` command. The panther-aws-events build is dependent on Node.js v12. To build the panther-aws-events project, you need to either install Node.js v12 locally or use the `sam build --use-container` option, which uses an Amazon provided AWS SAM Node.js v12 build container, as detailed below. 
+Once the source code has been downloaded, the [panther-aws-events](https://github.com/OpenAnswers/panther-aws-events){:target="\_blank"} project needs to be built using the `sam build` command. The panther-aws-events build is dependent on Node.js v12. To build the panther-aws-events project, you need to either install Node.js v12 locally or use the `sam build --use-container` option, which uses an Amazon provided AWS SAM Node.js v12 build container, as detailed below.
 
 ### Building the AWS Lambda function (using Node.js)
 
@@ -89,8 +84,7 @@ If you have `node` v12 installed, you can use this build step:
 sam build
 ```
 
-> _**NOTE:** Many linux distributions include an old version of `node`. Node.js v12 can be installed for Linux using [NVM](https://github.com/nvm-sh/nvm){:target="_blank"}._
-
+> _**NOTE:** Many linux distributions include an old version of `node`. Node.js v12 can be installed for Linux using [NVM](https://github.com/nvm-sh/nvm){:target="\_blank"}._
 
 ### Building the AWS Lambda function (using Docker)
 
@@ -109,11 +103,12 @@ Using the guided option will interactively prompt for the values from the [check
 sam deploy --guided
 ```
 
->_**NOTE:** SAM uses the same configuration as the AWS CLI, so if you use many different accounts, ensure that your profile is pointing to the correct account that you wish to install the collector in._
+> _**NOTE:** SAM uses the same configuration as the AWS CLI, so if you use many different accounts, ensure that your profile is pointing to the correct account that you wish to install the collector in._
 
 You will then be asked a series of questions to deploy the code to your account and will be prompted for the following values:
-  - `APIToken`
-  - `APIUrl`
+
+- `APIToken`
+- `APIUrl`
 
 The process will look similar to this:
 
@@ -131,7 +126,7 @@ Configuring SAM deploy
         Stack Name [AWS-Events2Panther]:
         AWS Region [us-east-1]: eu-west-3
         Parameter APIToken []: XXXXXXXxxxxxxxxXXXXXXXxxxxxxXXXX
-        Parameter APIUrl []: https://example.app.panther.support/api/event/create
+        Parameter APIUrl []: https://example.com/api/event/create
         #Shows you resources changes to be deployed and require a 'Y' to initiate deploy
         Confirm changes before deploy [Y/n]: y
         #SAM needs permission to be able to create roles to connect to the resources in your template
@@ -158,7 +153,7 @@ Configuring SAM deploy
         Confirm changeset          : True
         Deployment s3 bucket       : aws-sam-cli-managed-default-samclisourcebucket-1f8nf3gegbbkw
         Capabilities               : ["CAPABILITY_IAM"]
-        Parameter overrides        : {'APIToken': 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', 'APIUrl': 'https://example.app.panther.support/api/event/create'}
+        Parameter overrides        : {'APIToken': 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', 'APIUrl': 'https://example.com/api/event/create'}
 
 Initiating deployment
 =====================
@@ -211,30 +206,29 @@ CREATE_COMPLETE                     AWS::CloudFormation::Stack              AWS-
 
 Stack AWS-Events2Panther outputs:
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-OutputKey-Description                                                                                    OutputValue                                                          
+OutputKey-Description                                                                                    OutputValue
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Events2PantherFunctionIamRole - Implicit IAM Role created for the AWS Events to Panther function         arn:aws:iam::787224169971:role/AWS-Events2Panther-Events2PantherFunctionRole-WO1GMSJJVFP5
-Events2PantherFunction - AWS Events to Panther Lambda Function ARN                                       arn:aws:lambda:eu-west-3:787224169971:function:AWS-Events2Panther    
+Events2PantherFunction - AWS Events to Panther Lambda Function ARN                                       arn:aws:lambda:eu-west-3:787224169971:function:AWS-Events2Panther
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Successfully created/updated stack - AWS-Events2Panther in eu-west-3
 ```
 
-## Running 
+## Running
 
 Once the code has been successfully registered in AWS, you should start seeing a stream of events into your Panther Console.
 
 Manual testing can be done by following the [**Sending some test events**](#sending-some-test-events) instructions.
 
-
 # Configuring the captured events
 
 There are two approaches to configuring which events will trigger the Lambda function.
 
-* [Adding new YAML config to the SAM template](#generating-new-event-triggers-using-sam) (`template.yaml`) that will generate the triggers for you.
+- [Adding new YAML config to the SAM template](#generating-new-event-triggers-using-sam) (`template.yaml`) that will generate the triggers for you.
 
-* [Setting up new triggers in the AWS Console](#setting-up-event-triggers-in-the-aws-console).
- 
+- [Setting up new triggers in the AWS Console](#setting-up-event-triggers-in-the-aws-console).
+
 Depending on your use case you may prefer either approach.
 
 ## Generating new event triggers using SAM
@@ -244,12 +238,12 @@ In the Resources section of the SAM template (`template.yaml`), the PantherMessa
 You will see that an event trigger has been configured (commented out) that will trigger the Lambda function when a _CloudWatchEvent_ is created that has a source value of aws.guardduty:
 
 ```yaml
-    GuardDuty:
-      Type: CloudWatchEvent
-      Properties:
-        Pattern:
-          Source:
-          - aws.guardduty
+GuardDuty:
+  Type: CloudWatchEvent
+  Properties:
+    Pattern:
+      Source:
+        - aws.guardduty
 ```
 
 This event pattern will specify the fields to match up when filtering the CloudWatchEvents.
@@ -259,7 +253,7 @@ If the filter pattern matches that of the event JSON, it will trigger the functi
 If you wish to capture some events, you can uncomment the following line from the start of the _lambdaHandler_ function in the `e2p/e2p.js` file:
 
 ```js
-    console.log("Event Received: " + JSON.stringify(event, null, 2));
+console.log("Event Received: " + JSON.stringify(event, null, 2))
 ```
 
 This will write the event JSON to the CloudWatch Logs log group related to the Lambda function.
@@ -267,38 +261,37 @@ This will write the event JSON to the CloudWatch Logs log group related to the L
 Some other examples of pattern filters are, any EC2 instances that are terminated:
 
 ```yaml
-    EC2Events:
-      Type: CloudWatchEvent
-      Properties:
-        Pattern:
-          Source:
-          - aws.ec2
-          Detail:
-            State:
-            - terminated
+EC2Events:
+  Type: CloudWatchEvent
+  Properties:
+    Pattern:
+      Source:
+        - aws.ec2
+      Detail:
+        State:
+          - terminated
 ```
 
 Or if you wish to match CloudFormation Lambda code deployment in eu-west-1 or eu-west-2, you could write a filter like this:
 
 ```yaml
-    LambdaUpdates:
-      Type: CloudWatchEvent
-      Properties:
-        Pattern:
-          source:
-          - aws-lambda
-          Detail:
-            AwsRegion:
-            - eu-west-1
-            - eu-west-2
-            UserAgent:
-            - cloudformation.amazonaws.com
+LambdaUpdates:
+  Type: CloudWatchEvent
+  Properties:
+    Pattern:
+      source:
+        - aws-lambda
+      Detail:
+        AwsRegion:
+          - eu-west-1
+          - eu-west-2
+        UserAgent:
+          - cloudformation.amazonaws.com
 ```
 
 AWS documentation to help you create more filters can be found here (although it's in JSON):
 
-[docs.aws.amazon.com/eventbridge/latest/userguide/filtering-examples-structure.html](https://docs.aws.amazon.com/eventbridge/latest/userguide/filtering-examples-structure.html){:target="_blank"}
-
+[docs.aws.amazon.com/eventbridge/latest/userguide/filtering-examples-structure.html](https://docs.aws.amazon.com/eventbridge/latest/userguide/filtering-examples-structure.html){:target="\_blank"}
 
 ## Setting up event triggers in the AWS console
 
@@ -308,44 +301,39 @@ However, you can also disable that one and create your own more specific rules.
 
 Rules can be accessed from two locations:
 
-[console.aws.amazon.com/cloudwatch/home](https://console.aws.amazon.com/cloudwatch/home){:target="_blank"}
+[console.aws.amazon.com/cloudwatch/home](https://console.aws.amazon.com/cloudwatch/home){:target="\_blank"}
 
 Or here:
 
-[console.aws.amazon.com/events/home](https://console.aws.amazon.com/events/home){:target="_blank"}
+[console.aws.amazon.com/events/home](https://console.aws.amazon.com/events/home){:target="\_blank"}
 
-On either page you should click on the '__Create rule__' button.
+On either page you should click on the '**Create rule**' button.
 
-Under __Define pattern__, select __Event pattern__, then select __Pre-defined pattern by service__, select '__AWS__', then select '__All Services__'. This will behave in the same way as CloudTrail, by passing all AWS events to the target. 
+Under **Define pattern**, select **Event pattern**, then select **Pre-defined pattern by service**, select '**AWS**', then select '**All Services**'. This will behave in the same way as CloudTrail, by passing all AWS events to the target.
 
 As shown below:
 
 ![Event pattern - AWS - All Services](./media/aws-define-pattern.png)
 
-
-Next, under __Select targets__ ensure the target is set to '__Lambda function__', and then select the function id for the one you uploaded. It will be in the format: AWS-Events2Panther-{stack name}
+Next, under **Select targets** ensure the target is set to '**Lambda function**', and then select the function id for the one you uploaded. It will be in the format: AWS-Events2Panther-{stack name}
 
 ![Select targets - lambda function](./media/aws-select-targets.png)
 
-
-Once done, you can click on the __Create__ button at the bottom of the page.
+Once done, you can click on the **Create** button at the bottom of the page.
 
 # Advanced event filtering
 
-If you wish to only send events to Panther for particular services, you can select '__Custom pattern__', and paste in an event pattern.
+If you wish to only send events to Panther for particular services, you can select '**Custom pattern**', and paste in an event pattern.
 
 ![example custom pattern](./media/aws-define-custom-pattern.png)
 
-__Examples of patterns__
+**Examples of patterns**
 
 ## All events from multiple services:
 
 ```json
 {
-  "source": [
-    "aws.apigateway",
-    "aws.ec2"
-  ]
+  "source": ["aws.apigateway", "aws.ec2"]
 }
 ```
 
@@ -353,12 +341,8 @@ __Examples of patterns__
 
 ```json
 {
-  "source": [
-    "aws.ec2"
-  ],
-  "detail-type": [
-    "EBS Snapshot Notification"
-  ]
+  "source": ["aws.ec2"],
+  "detail-type": ["EBS Snapshot Notification"]
 }
 ```
 
@@ -368,20 +352,19 @@ When an instance has been terminated
 
 ```json
 {
-  "source": [ "aws.ec2" ],
-  "detail-type": [ "EC2 Instance State-change Notification" ],
+  "source": ["aws.ec2"],
+  "detail-type": ["EC2 Instance State-change Notification"],
   "detail": {
-    "state": [ "terminated" ]
+    "state": ["terminated"]
   }
 }
 ```
-
 
 ## Filtering more complex events
 
 Filtering of events can be much more complex, here is Amazons guide:
 
-[docs.aws.amazon.com/eventbridge/latest/userguide/filtering-examples-structure.html](https://docs.aws.amazon.com/eventbridge/latest/userguide/filtering-examples-structure.html){:target="_blank"}
+[docs.aws.amazon.com/eventbridge/latest/userguide/filtering-examples-structure.html](https://docs.aws.amazon.com/eventbridge/latest/userguide/filtering-examples-structure.html){:target="\_blank"}
 
 You can setup multiple filter rules, each looking for a different type of event from different services that all have the same target Lambda function.
 
@@ -393,10 +376,10 @@ Therefore, to edit the message generated for an event that is already handled, a
 
 ## Currently supported event types
 
-- [AWS API Call via CloudTrail](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/EventTypes.html#events-for-services-not-listed){:target="_blank"}
-- [EC2 Instance State-change Notification](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/EventTypes.html#ec2_event_type){:target="_blank"}
-- [GuardDuty Finding](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings_cloudwatch.html#guardduty_findings_cloudwatch_format){:target="_blank"}
-- [Security Hub Findings](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cwe-event-formats.html){:target="_blank"}
+- [AWS API Call via CloudTrail](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/EventTypes.html#events-for-services-not-listed){:target="\_blank"}
+- [EC2 Instance State-change Notification](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/EventTypes.html#ec2_event_type){:target="\_blank"}
+- [GuardDuty Finding](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings_cloudwatch.html#guardduty_findings_cloudwatch_format){:target="\_blank"}
+- [Security Hub Findings](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cwe-event-formats.html){:target="\_blank"}
 - Config Configuration Item Change
 
 To handle a new event type you should replicate the approach used for other events:
@@ -419,12 +402,13 @@ The Panther JSON message has the following structure:
 ```
 
 The `severity` is on a scale from 0-5, with
- - 0=clear
- - 1=indeterminate
- - 2=warning, 
- - 3=minor, 
- - 4=major, 
- - 5=critical
+
+- 0=clear
+- 1=indeterminate
+- 2=warning,
+- 3=minor,
+- 4=major,
+- 5=critical
 
 ## Testing changes locally
 
@@ -432,14 +416,13 @@ SAM can use a local Docker image to test Lambda functions on your machine.
 
 To run the Lambda function with the test data first update the `env.json` file with your values for `APIUrl` and `APIToken` as described in the [checklist](#checklist).
 
->_**NOTE:** To create a Panther `APIToken` please consult the [admin documentation](../admin/index.md#api-keys)_
-
+> _**NOTE:** To create a Panther `APIToken` please consult the [admin documentation](../admin/index.md#api-keys)_
 
 ```
 ❯ cat env.json
 {
   "Parameters": {
-    "API_URL": "https://<PANTHER_NAME>.app.panther.support/api/event/create",
+    "API_URL": "https://example.com/api/event/create",
     "API_TOKEN": "<PANTHER_API_TOKEN>"
   }
 }
@@ -452,10 +435,10 @@ sam build
 sam local invoke Events2PantherFunction -e events/<filename>.json --env-vars env.json
 ```
 
-__NOTE:__ Replace `<filename>.json` with an actual file, some examples are provided in the [GitHub repository](https://github.com/OpenAnswers/panther-aws-events/tree/master/events){:target="_blank"}:
+**NOTE:** Replace `<filename>.json` with an actual file, some examples are provided in the [GitHub repository](https://github.com/OpenAnswers/panther-aws-events/tree/master/events){:target="\_blank"}:
 
-  - [`events/guardduty1.json`](https://github.com/OpenAnswers/panther-aws-events/blob/master/events/guardduty1.json){:target="_blank"}
-  - [`events/guardduty2.json`](https://github.com/OpenAnswers/panther-aws-events/blob/master/events/guardduty2.json){:target="_blank"}
+- [`events/guardduty1.json`](https://github.com/OpenAnswers/panther-aws-events/blob/master/events/guardduty1.json){:target="\_blank"}
+- [`events/guardduty2.json`](https://github.com/OpenAnswers/panther-aws-events/blob/master/events/guardduty2.json){:target="\_blank"}
 
 Sample events can sometimes be found in the AWS documentation, or can be output to the console / CloudWatch Logs. The function will automatically output the event JSON when the processing code causes an exception, or a handler is not available for that particular type of event.
 
@@ -463,7 +446,7 @@ Sample events can sometimes be found in the AWS documentation, or can be output 
 
 Lambda functions produce log output that is put into a CloudWatch Log group.
 
-Navigate to: [console.aws.amazon.com/cloudwatch/home](https://console.aws.amazon.com/cloudwatch/home#logsV2:log-groups){:target="_blank"}
+Navigate to: [console.aws.amazon.com/cloudwatch/home](https://console.aws.amazon.com/cloudwatch/home#logsV2:log-groups){:target="\_blank"}
 
 Then look for the log group in the format: `/aws/lambda/AWS-Events2Panther`
 
@@ -473,11 +456,11 @@ The log group will contain multiple logs written each time the function is trigg
 
 # Sending some test events
 
-After installation has completed a new Lambda function will have been registered with the supplied __Stack Name__ by default this will be called **AWS-Events2Panther**.
+After installation has completed a new Lambda function will have been registered with the supplied **Stack Name** by default this will be called **AWS-Events2Panther**.
 
 ## Simulating an EC2 instance state change
 
-Find your Lambda function, if you imported with default values it will be named **AWS-Events2Panther** and should be listed on [aws.amazon.com/lambda/home](https://console.aws.amazon.com/lambda/home){:target="_blank"}
+Find your Lambda function, if you imported with default values it will be named **AWS-Events2Panther** and should be listed on [aws.amazon.com/lambda/home](https://console.aws.amazon.com/lambda/home){:target="\_blank"}
 
 You should see something like ![Default lambda function](./media/aws-lambda-panther.png)
 
@@ -487,19 +470,17 @@ In order to test Events2Panther we'll need some test data, you can copy the exam
 
 ```json
 {
-   "id":"7bf73129-1428-4cd3-a780-95db273d1602",
-   "detail-type":"EC2 Instance State-change Notification",
-   "source":"aws.ec2",
-   "account":"123456789012",
-   "time":"2019-11-11T21:29:54Z",
-   "region":"us-east-1",
-   "resources":[
-      "arn:aws:ec2:us-east-1:123456789012:instance/i-abcd1111"
-   ],
-   "detail":{
-      "instance-id":"i-abcd1111",
-      "state":"pending"
-   }
+  "id": "7bf73129-1428-4cd3-a780-95db273d1602",
+  "detail-type": "EC2 Instance State-change Notification",
+  "source": "aws.ec2",
+  "account": "123456789012",
+  "time": "2019-11-11T21:29:54Z",
+  "region": "us-east-1",
+  "resources": ["arn:aws:ec2:us-east-1:123456789012:instance/i-abcd1111"],
+  "detail": {
+    "instance-id": "i-abcd1111",
+    "state": "pending"
+  }
 }
 ```
 
@@ -509,13 +490,13 @@ It should look something like this:
 
 ### Sending a sample event
 
-* Click the ![Test button](./media/test.png) button to send the event.
+- Click the ![Test button](./media/test.png) button to send the event.
 
-* Verify in your Panther Console that the event was received (it may take a couple of seconds)
+- Verify in your Panther Console that the event was received (it may take a couple of seconds)
 
 ![EC2 event arrived in Panther](./media/example-ec2-in-panther.png)
 
-* Repeat sending events, and the corresponding Panther Events tally will start increasing, e.g.
+- Repeat sending events, and the corresponding Panther Events tally will start increasing, e.g.
 
 ![EC2 event de-duplicated](./media/example-ec2-in-panther-incremented.png)
 

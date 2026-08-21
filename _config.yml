@@ -70,11 +70,6 @@ aux_links_new_tab: true
 aux_links:
   "Open Answers":
     - "//openanswers.co.uk"
-  "app.panther.support":
-    - "//app.panther.support"
-
-panther:
-  baseurl: app.panther.support
 
 defaults:
   - scope:
