@@ -6,7 +6,7 @@ is accessible at [openanswers.github.io/panther-docs](https://openanswers.github
 ## Running Locally
 
 ```sh
-docker-compose up
+docker compose up
 ```
 
 Then browse to http://localhost:4000
