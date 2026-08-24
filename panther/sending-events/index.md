@@ -21,37 +21,36 @@ documentation published by the relevant providers, specific
 configuration is also required to enable communication with Panther.
 
 This and subsequent pages provide a guide to the configuration required once any necessary
-logging software has been installed. 
+logging software has been installed.
 
 > _**NOTE**: The instructions here are based on clean installations of the logging software -- if site-specific configurations have already been made, then it is necessary to download the Panther resources and integrate them following the providers' documentation._
 
 All users should read the general advice in the [introduction](#introduction), but then
 refer to the relevant sections for their own specific software.
 
- * [Introduction](#introduction) (all systems)
- * [Rsyslog](./rsyslog.md#rsyslog-configuration) (Linux)
- * [NXLog](./nxlog.md) ([Linux](./nxlog.md#nxlog-configuration-linux) \| [Windows](./nxlog.md#nxlog-configuration-windows))
- * [Panther API](./panther-api.md) (HTTP)
- * [AWS](./aws.md)
+- [Introduction](#introduction) (all systems)
+- [Rsyslog](./rsyslog.md#rsyslog-configuration) (Linux)
+- [NXLog](./nxlog.md) ([Linux](./nxlog.md#nxlog-configuration-linux) \| [Windows](./nxlog.md#nxlog-configuration-windows))
+- [Panther API](./panther-api.md) (HTTP)
+- [AWS](./aws.md)
 
 # Introduction
 
 Events can be received by Panther via two protocols:
- 
+
 | Protocol | Destination | Port |
-| Secure Syslog | example.app.panther.support | 6514 |
-| HTTP (Post) | https://app.panther.support | 443 |
+| Secure Syslog | example.com | 6514 |
+| HTTP (Post) | https://example.com | 443 |
 
 These are both _TCP_ ports and may require additional firewalling rules to permit connectivity depending on your networking setup.
 
+## Secure Syslog
 
-## [app.panther.support](https://app.panther.support) (secure syslog)
+Event data is sent securely to the Panther server from local clients via an encrypted connection using Transport Layer Security (TLS). This requires the use of certificates and unique client keys which are generated specifically for your Panther instance during the sign-up process.
 
-Event data is sent securely to the Panther server from local clients via an encrypted connection using Transport Layer Security (TLS). This requires the use of certificates and unique client keys which are generated specifically for your Panther instance during the sign-up process. 
+> _**NOTE**: Self hosted Docker containers use standard Syslog_
 
-> _**NOTE**: TLS certificates are used for app.panther.support, self hosted Docker containers use standard Syslog_
-
-Since these certificates and keys are needed to configure client event loggers, they are bundled into "configuration archives" along with sample configuration files specific to the software, and made available for download from your Panther instance e.g. ([example.app.panther.support](https://app.panther.support){:target="_blank"}).
+Since these certificates and keys are needed to configure client event loggers, they are bundled into "configuration archives" along with sample configuration files specific to the software, and made available for download from your Panther instance.
 
 > _**NOTE**: You should ensure that the `key.pem` included in your configuration archive is kept secure to prevent its use by anyone else._
 
@@ -59,10 +58,10 @@ The configuration process therefore is to download an appropriate archive, to lo
 
 There are specific instructions for configuring the following Event senders:
 
- - [Rsyslog](./rsyslog.md) 
- - [NXLog](./nxlog.md)
+- [Rsyslog](./rsyslog.md)
+- [NXLog](./nxlog.md)
 
-## Other Syslog agents 
+## Other Syslog agents
 
 Any Sylog agent can be used so long as it supports TLS Client certificate authentication, the necessary certificate files can be acquired from the [Rsyslog](./rsyslog.md) configuration archive.
 
@@ -72,16 +71,14 @@ The following files included in the `rsyslog-config-<system>.tar` can be used as
 |key.pem| TLS Client Key|
 |panther-cert-chain.pem| The (self signed) Certificate chain of trust |
 
-Syslog events are sent to `app.panther.support:6514` (6514 is the secure syslog port).
+Syslog events are sent to `example.com:6514` (6514 is the secure syslog port).
 
-## [app.panther.support](https://app.panther.support) (HTTPS API)
+## HTTPS API
 
-Event data is sent securely to the Panther server from local clients via an encrypted HTTPS connection.  This does not require any additional certificates to be installed and will use your systems standard TLS authority chain of trust.
+Event data is sent securely to the Panther server from local clients via an encrypted HTTPS connection. This does not require any additional certificates to be installed and will use your systems standard TLS authority chain of trust.
 
-For further information please consult the general [API Console](../api/index.md) documentation, or the [AWS-Events2Panther](./aws.md). 
-
+For further information please consult the general [API Console](../api/index.md) documentation, or the [AWS-Events2Panther](./aws.md).
 
 ## Self Hosted Panther
 
 **TODO**
-

@@ -11,9 +11,6 @@ description: Panther Rules - YAML definitions
 # Rules location
 Depending on which way you installed Panther there are differing locations of the rule files.
 
-## When using [app.panther.support](https://app.panther.support){:target="_blank"}
-  The rules are not directly accessible to the end user but they can be exported, edited and re-imported from `Rules` tab.
-
 
 ## When using [docker-compose.yml](https://github.com/OpenAnswers/panther-core/blob/master/docker-compose.yml){:target="_blank"}
   A Docker volume will have been created, the name is comprised of two parts.

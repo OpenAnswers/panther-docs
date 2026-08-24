@@ -9,16 +9,11 @@ description: Getting started with Panther
 
 
 # Introduction
-The (beta) cloud-based version of Panther is accessible at [app.panther.support](//app.panther.support){:target="_blank"}. After a simple Sign-up process your dedicated secure Panther instance will be automatically provisioned within the Panther Cloud. When signing-up you will be asked to choose a unique name for your Console which will then be accessible at https://{**example**}.[app.panther.support](//app.panther.support){:target="_blank"}.
-
 ![Panther Architecture diagram](../../img/PantherArchitecture.png)
 
 ## Using Panther for the First Time
 
-### Logging in (app.panther.support)
-Login for the first time as the `admin` user using the password you gave during Sign-up - this is the default user account that will be used to [administer](../admin/index.md) Panther for the first time.  Additional users can then be created from the [admin tab](../admin/index.md#user-administration).
-
-### Logging in (`docker-compose.yml`)
+### Logging in
 
 **Note** Instructions for launching the Docker images are on [github.com/openanswers/panther-core](https://github.com/OpenAnswers/panther-core){:target="_blank"}
 
@@ -37,6 +32,8 @@ This can be changed through the `environment` settings in [`docker-compose.yml`]
       - ADMIN_PASSWORD=admin
       - ADMIN_EMAIL=you@example.com
 ```
+
+Additional users can then be created from the [admin tab](../admin/index.md).
 
 ### Welcome to the dashboard
 
